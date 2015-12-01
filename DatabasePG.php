@@ -1,5 +1,7 @@
 <?php
 
+namespace PostgresqlDatabase;
+
 class Database{
 
 	private $connection;

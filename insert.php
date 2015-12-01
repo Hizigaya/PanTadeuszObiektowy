@@ -1,12 +1,15 @@
 <?php
 
 	include_once('parameters.php');
-	include_once('Database.php');
+	include_once('DatabasePG.php');
 	include_once('Reflection.php');
 
-	$database = new Database($hostname, $database, $username, $password1);
+	use PanTadeusz as PT;
+	use PostgresqlDatabase as PD;
 
-	$reflection = new Reflection($_POST['title'], $_POST['content']);
+	$database = new PD\Database($hostname, $database, $username, $password1);
+
+	$reflection = new PT\Reflection($_POST['title'], $_POST['content']);
 
 	$query="INSERT into reflections (title, content) values ('".$reflection->getTitle()."', '".$reflection->getReflection()."');";
 

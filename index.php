@@ -65,9 +65,11 @@
 					  	<div class="panel-body">
 					    	<?php
 								include_once('parameters.php');
-								include_once('Database.php');
+								include_once('DatabasePG.php');
 
-								$database = new Database($hostname, $database, $username, $password1);
+								use PostgresqlDatabase as PD;
+
+								$database = new PD\Database($hostname, $database, $username, $password1);
 
 								$query = "SELECT * FROM reflections;";
 								
