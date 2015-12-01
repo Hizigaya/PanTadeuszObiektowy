@@ -65,13 +65,13 @@
 					  	<div class="panel-body">
 					    	<?php
 								include_once('parameters.php');
+								include_once('Database.php');
 
-								$connection = mysqli_connect($hostname, $username, $password2, $database);
-						 	 	if (mysqli_connect_errno()) {
-						       		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-						     	}
+								$database = new Database($hostname, $database, $username, $password2);
+
 								$query = "SELECT * FROM reflections;";
-								$result = mysqli_query($connection, $query);
+								
+								$result = $database->queryExecute($query);
 								if (!$result) {
 				  					echo "An error occured.\n";
 				  					exit;

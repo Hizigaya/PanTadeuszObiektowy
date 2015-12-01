@@ -1,28 +1,23 @@
 <?php
 
 	include_once('parameters.php');
+	include_once('Database.php');
+	include_once('Reflection.php');
 
-	$connection = mysqli_connect($hostname, $username, $password2, $database);
- 	 	if (mysqli_connect_errno()) {
-       		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-     	}
+	$database = new Database($hostname, $database, $username, $password2);
 
-    $title=$_POST['title'];
-	$content=$_POST['content'];
-	$query="INSERT into reflections (title, content) values ('$title', '$content');";
+    $reflection = new Reflection($_POST['title'], $_POST['content']);
+	
+	$query="INSERT into reflections (title, content) values ('".$reflection->getTitle()."', '".$reflection->getReflection()."');";
 
-	$result=mysqli_query($connection, $query);
-	if (!$result) {
-  		echo "An error occured.\n";
-  		exit;
-	}
+	$result=$database->queryExecute($query);
 
 	$url = 'https://mandrillapp.com/api/1.0/messages/send.json';
 	$params = [
 		'message' => array(
-			'subject' => $title,
-			'text' => $reflection,
-			'html' => '<p>'.$content.'</p>',
+			'subject' => $reflection->getTitle(),
+			'text' => $reflection->getReflection(),
+			'html' => '<p>'.$reflection->getReflection().'</p>',
 			'from_email' => 'wojcikk@v-ie.uek.krakow.pl',
 			'to' => array(
 				array(
@@ -43,6 +38,6 @@
 
 	$head = curl_exec($ch); 
 	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
-	curl_close($ch);
+	curl_close($ch); 
 
 	header("Location: ".$_SERVER['HTTP_REFERER']);
