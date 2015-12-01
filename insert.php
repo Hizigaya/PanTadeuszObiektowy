@@ -2,18 +2,21 @@
 
 	include_once('parameters.php');
 	include_once('DatabasePG.php');
+	include_once('DatabaseMS.php');
 	include_once('Reflection.php');
 
 	use PanTadeusz as PT;
 	use PostgresqlDatabase as PD;
+	use MysqlDatabase as MD;
 
-	$database = new PD\Database($hostname, $database, $username, $password1);
+	$database1 = new PD\Database($hostname, $database, $username, $password1);
+	$database2 = new MD\Database($hostname, $database, $username, $password2);
 
-	$reflection = new PT\Reflection($_POST['title'], $_POST['content']);
-
+    $reflection = new PT\Reflection($_POST['title'], $_POST['content']);
+	
 	$query="INSERT into reflections (title, content) values ('".$reflection->getTitle()."', '".$reflection->getReflection()."');";
 
-	$result = $database->queryExecute($query);	
+	$result=$database2->queryExecute($query);
 
 	$url = 'https://mandrillapp.com/api/1.0/messages/send.json';
 	$params = [
@@ -41,6 +44,7 @@
 
 	$head = curl_exec($ch); 
 	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
-	curl_close($ch);  
+	curl_close($ch); 
 
 	header("Location: ".$_SERVER['HTTP_REFERER']);
+

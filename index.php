@@ -66,14 +66,17 @@
 					    	<?php
 								include_once('parameters.php');
 								include_once('DatabasePG.php');
+								include_once('DatabaseMS.php');
 
 								use PostgresqlDatabase as PD;
+								use MysqlDatabase as MD;
 
-								$database = new PD\Database($hostname, $database, $username, $password1);
+								$database1 = new PD\Database($hostname, $database, $username, $password1);
+								$database2 = new MD\Database($hostname, $database, $username, $password2);
 
 								$query = "SELECT * FROM reflections;";
 								
-								$result = $database->queryExecute($query);
+								$result = $database2->queryExecute($query);
 								if (!$result) {
 				  					echo "An error occured.\n";
 				  					exit;
@@ -87,7 +90,7 @@
 												<tr>
 											</thead>
 											<tbody>";
-									while($row = pg_fetch_array($result)){
+									while($row = mysqli_fetch_array($result)){
 										echo "<tr>";
 										echo "<td>".$row[0]."</td>";
 										echo "<td>".$row[1]."</td>";
@@ -96,7 +99,6 @@
 									}
 									echo "</tbody></table>";
 								}
-
 							?>
 					  	</div>
 					</div>
