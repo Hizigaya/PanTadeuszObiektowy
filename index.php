@@ -65,12 +65,13 @@
 					  	<div class="panel-body">
 					    	<?php
 								include_once('parameters.php');
+								include_once('Database.php');
 
-								$connection=pg_connect("host=$hostname port=5432 user=$username dbname=$database password=$password1")
-									or die ("Couldn't connect to database: ".pg_last_error($connection));
+								$database = new Database($hostname, $database, $username, $password1);
 
 								$query = "SELECT * FROM reflections;";
-								$result = pg_query($connection, $query);
+								
+								$result = $database->queryExecute($query);
 								if (!$result) {
 				  					echo "An error occured.\n";
 				  					exit;
