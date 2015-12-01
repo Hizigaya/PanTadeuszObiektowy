@@ -26,7 +26,7 @@
 					<?php
 						for ($i=1;$i<=12;$i++){
 							$book='k'.$i;
-								if ($book==$_GET[co]){
+								if ($book==$_GET['co']){
 									echo ("<li role='presentation' class='active'><a href='index.php?co=".$book."'>Księga ".rome($i)."</a></li>");
 								} else {
 									echo ("<li role='presentation' ><a href='index.php?co=".$book."'>Księga ".rome($i)."</a></li>");
@@ -45,7 +45,7 @@
 							<p>Prześlij refleksję</p>
 						</div>
 					  	<div class="panel-body">
-					    	<form method="POST" action="insert.php">
+					  		<form method="POST" action="insert.php">
 							  	<div class="form-group">
 							    	<label for="title">Tytuł</label>
 							    	<input type="text" class="form-control" name="title" id="title" placeholder="Tytuł refleksji">
@@ -64,41 +64,14 @@
 						</div>
 					  	<div class="panel-body">
 					    	<?php
+
 								include_once('parameters.php');
-								include_once('DatabasePG.php');
-								include_once('DatabaseMS.php');
+								include_once('Service.php');
 
-								use PostgresqlDatabase as PD;
-								use MysqlDatabase as MD;
+								$service = new Service($hostname, $database, $username, $password1, $password2, 'PG');
+								$service->getFromDatabase($database);
+								$service->displayReflections(); 
 
-								$database1 = new PD\Database($hostname, $database, $username, $password1);
-								$database2 = new MD\Database($hostname, $database, $username, $password2);
-
-								$query = "SELECT * FROM reflections;";
-								
-								$result = $database2->queryExecute($query);
-								if (!$result) {
-				  					echo "An error occured.\n";
-				  					exit;
-								} else {
-									echo "<table class='table table-hover'>
-											<thead>
-												<tr>
-													<th>Id</th>
-													<th>Tytuł</th>
-													<th>Treść</th>
-												<tr>
-											</thead>
-											<tbody>";
-									while($row = mysqli_fetch_array($result)){
-										echo "<tr>";
-										echo "<td>".$row[0]."</td>";
-										echo "<td>".$row[1]."</td>";
-										echo "<td>".$row[2]."</td>";
-										echo "</tr>";
-									}
-									echo "</tbody></table>";
-								}
 							?>
 					  	</div>
 					</div>
@@ -107,8 +80,8 @@
 					<?php
 						for ($i=1;$i<=12;$i++){
 								$book='k'.$i;
-								if ($book==$_GET[co]){
-									$book='./ksiegi/'.$_GET[co].'.html';
+								if ($book==$_GET['co']){
+									$book='./ksiegi/'.$_GET['co'].'.html';
 									require_once($book);
 								}
 							}

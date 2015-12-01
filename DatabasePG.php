@@ -61,6 +61,11 @@ class Database{
 	}
 
 	public function queryExecute($query){
-		return pg_query($this->connection, $query);
+		$result = pg_query($this->connection, $query);
+		return $this->convertToArray($result);
+	}
+
+	public function convertToArray($result){
+		return pg_fetch_all($result);
 	}
 }

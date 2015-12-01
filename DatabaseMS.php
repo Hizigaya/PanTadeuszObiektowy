@@ -63,6 +63,11 @@ class Database{
 	}
 
 	public function queryExecute($query){
-		return mysqli_query($this->connection, $query);
+		$result = mysqli_query($this->connection, $query);
+		return $this->convertToArray($result);
+	}
+
+	public function convertToArray($result){
+		return mysqli_fetch_all($result, MYSQLI_ASSOC);
 	}
 }
