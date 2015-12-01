@@ -40,12 +40,21 @@
 			<div class="row">
 				<div id="refleksje" class="col-sm-12 col-lg-4">
 					<h1>Refleksje</h1>
+					<p>
+						<?php 
+							echo "<a class='btn btn-success' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=PG" : ((strpos($_SERVER['QUERY_STRING'],'type'))?("?".str_replace('MS','PG',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=PG")))."' role='button'>PostgreSQL</a>";
+							echo "<a class='btn btn-danger' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=MS" : ((strpos($_SERVER['QUERY_STRING'],'type'))?("?".str_replace('PG','MS',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=MS")))."' role='button'>MySQL</a>";
+						?>
+
+					</p>
 					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<p>Prześlij refleksję</p>
 						</div>
 					  	<div class="panel-body">
-					  		<form method="POST" action="insert.php">
+					  	<?php
+					  		echo "<form method='POST' action='insert.php?type=".$_GET['type']."'>";
+					  	?>
 							  	<div class="form-group">
 							    	<label for="title">Tytuł</label>
 							    	<input type="text" class="form-control" name="title" id="title" placeholder="Tytuł refleksji">
@@ -68,7 +77,7 @@
 								include_once('parameters.php');
 								include_once('Service.php');
 
-								$service = new Service($hostname, $database, $username, $password1, $password2, 'PG');
+								$service = new Service($hostname, $database, $username, $password1, $password2, $_GET['type']);
 								$service->getFromDatabase($database);
 								$service->displayReflections(); 
 
