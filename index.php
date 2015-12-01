@@ -65,9 +65,11 @@
 					  	<div class="panel-body">
 					    	<?php
 								include_once('parameters.php');
-								include_once('Database.php');
+								include_once('DatabaseMS.php');
 
-								$database = new Database($hostname, $database, $username, $password2);
+								use MysqlDatabase as MD;
+
+								$database = new MD\Database($hostname, $database, $username, $password2);
 
 								$query = "SELECT * FROM reflections;";
 								

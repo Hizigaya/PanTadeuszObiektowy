@@ -1,5 +1,7 @@
 <?php
 
+namespace MysqlDatabase;
+
 class Database{
 
 	private $connection;

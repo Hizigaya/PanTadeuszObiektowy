@@ -1,12 +1,15 @@
 <?php
 
 	include_once('parameters.php');
-	include_once('Database.php');
+	include_once('DatabaseMS.php');
 	include_once('Reflection.php');
 
-	$database = new Database($hostname, $database, $username, $password2);
+	use PanTadeusz as PT;
+	use MysqlDatabase as MD;
 
-    $reflection = new Reflection($_POST['title'], $_POST['content']);
+	$database = new MD\Database($hostname, $database, $username, $password2);
+
+    $reflection = new PT\Reflection($_POST['title'], $_POST['content']);
 	
 	$query="INSERT into reflections (title, content) values ('".$reflection->getTitle()."', '".$reflection->getReflection()."');";
 
