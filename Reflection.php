@@ -1,5 +1,7 @@
 <?php
 
+namespace PanTadeusz;
+
 class Reflection{
 
 	private $id;
