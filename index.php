@@ -27,9 +27,9 @@
 						for ($i=1;$i<=12;$i++){
 							$book='k'.$i;
 								if ($book==$_GET['co']){
-									echo ("<li role='presentation' class='active'><a href='index.php?co=".$book."'>Księga ".rome($i)."</a></li>");
+									echo ("<li role='presentation' class='active'><a href='index.php?co=".$book."".((strpos($_SERVER['QUERY_STRING'],'type'))?("&type=".$_GET['type']):("&type=PG"))."'>Księga ".rome($i)."</a></li>");
 								} else {
-									echo ("<li role='presentation' ><a href='index.php?co=".$book."'>Księga ".rome($i)."</a></li>");
+									echo ("<li role='presentation' ><a href='index.php?co=".$book."".((strpos($_SERVER['QUERY_STRING'],'type'))?("&type=".$_GET['type']):("&type=PG"))."'>Księga ".rome($i)."</a></li>");
 								}
 						}
 					?>
@@ -42,8 +42,8 @@
 					<h1>Refleksje</h1>
 					<p>
 						<?php 
-							echo "<a class='btn btn-success' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=PG" : ((strpos($_SERVER['QUERY_STRING'],'type'))?("?".str_replace('MS','PG',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=PG")))."' role='button'>PostgreSQL</a>";
-							echo "<a class='btn btn-danger' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=MS" : ((strpos($_SERVER['QUERY_STRING'],'type'))?("?".str_replace('PG','MS',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=MS")))."' role='button'>MySQL</a>";
+							echo "<a class='btn btn-success ".((strpos($_SERVER['QUERY_STRING'],'PG'))?"disabled":"")."' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=PG" : (((strpos($_SERVER['QUERY_STRING'],'type'))===0 or (strpos($_SERVER['QUERY_STRING'],'type'))>0) ?("?".str_replace('MS','PG',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=PG")))."' role='button'>PostgreSQL</a>";
+							echo "<a class='btn btn-danger ".((strpos($_SERVER['QUERY_STRING'],'MS'))?"disabled":"")."' href='".$_SERVER['PHP_SELF']."".((empty($_SERVER['QUERY_STRING'])) ? "?type=MS" : (((strpos($_SERVER['QUERY_STRING'],'type'))===0 or (strpos($_SERVER['QUERY_STRING'],'type'))>0) ? ("?".str_replace('PG','MS',$_SERVER['QUERY_STRING'])):("?".$_SERVER['QUERY_STRING']."&type=MS")))."' role='button'>MySQL</a>";
 						?>
 
 					</p>
