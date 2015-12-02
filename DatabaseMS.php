@@ -64,7 +64,11 @@ class Database{
 
 	public function queryExecute($query){
 		$result = mysqli_query($this->connection, $query);
-		return $this->convertToArray($result);
+		if ($result===true) {
+			return $result;
+		} else {
+			return $this->convertToArray($result);
+		}
 	}
 
 	public function convertToArray($result){

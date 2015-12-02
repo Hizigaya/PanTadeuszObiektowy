@@ -62,7 +62,11 @@ class Database{
 
 	public function queryExecute($query){
 		$result = pg_query($this->connection, $query);
-		return $this->convertToArray($result);
+		if (pg_affected_rows($result)===1) {
+			return true;
+		} else {
+			return $this->convertToArray($result);
+		}
 	}
 
 	public function convertToArray($result){

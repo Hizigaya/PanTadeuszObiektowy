@@ -38,7 +38,7 @@ class Service{
 		$reflection = new PT\Reflection($title, $comment);
 		$query="INSERT into reflections (title, content) values ('".$reflection->getTitle()."', '".$reflection->getReflection()."');";
 		$result = $this->database->queryExecute($query);
-		if ($result) {
+		if ($result){
 			$this->sendEmail('wojcikk@wizard.uek.krakow.pl', 'Katarzyna Wójcik', $reflection);
 		}
 	}
